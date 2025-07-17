@@ -19,10 +19,6 @@ properties:
       traffic:
         - weight: 100
           latestRevision: true
-      extraExposedPorts:
-        - externalPort: 6277
-          targetPort: 6277
-          protocol: tcp  # Adjust based on needs
   template:
     revisionSuffix: ""
     containers:

@@ -533,7 +533,7 @@ const PORT = parseInt(
   process.env.SERVER_PORT || DEFAULT_MCP_PROXY_LISTEN_PORT,
   10,
 );
-const HOST = process.env.HOST || "localhost";
+const HOST = process.env.HOST || "localhost";+
 
 const server = app.listen(PORT, HOST);
 server.on("listening", () => {
