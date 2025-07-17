@@ -78,6 +78,8 @@ jobs:
           file: ./Dockerfile  # Adjust if your Dockerfile path differs
           push: true
           tags: aiauksdocautomation.azurecr.io/mcp-inspector:${{ env.IMAGE_TAG }}
+    outputs:
+        image_tag: ${{ env.IMAGE_TAG }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -97,6 +99,6 @@ jobs:
           acrName: aiauksdocautomation
           containerAppName: mcp-inspector
           resourceGroup: aia-uks-rg-container-environment
-          imageToDeploy: aiauksdocautomation.azurecr.io/mcp-inspector:${{ needs.generate_dynamic_tag.outputs.dynamic_tag || 'latest' }}  # Matches the pushed tag
+          imageToDeploy: aiauksdocautomation.azurecr.io/mcp-inspector:${{ needs.build-and-push.outputs.image_tag }}
           targetPort: 6274
           ingress: external
