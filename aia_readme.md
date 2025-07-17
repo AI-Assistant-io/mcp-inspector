@@ -14,5 +14,8 @@ az role assignment create --assignee <principalId-from-step-2> --role AcrPull --
 ## Verify the Image Exists in ACR (to rule out push failures)
 az acr repository list --name ca72f2f56ae9acr --output table
 
+## Redeploy or Restart the Revision:
+az containerapp update --name mcp-inspector --resource-group aia-uks-rg-container-environment
 
-
+## Monitor logs
+az containerapp logs show --name mcp-inspector --resource-group aia-uks-rg-container-environment --follow
