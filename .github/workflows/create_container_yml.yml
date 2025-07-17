@@ -72,6 +72,14 @@ jobs:
           echo "MAX_REPLICAS:${{ github.event.inputs.max-replicas  }}" >> $GITHUB_STEP_SUMMARY
 
       - name: Generate YAML from Template
+        env:   
+          ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}
+          IMAGE_TAG: ${{ github.event.inputs.imageTag }}
+          CPU: ${{ github.event.inputs.cpu }}
+          MEMORY: ${{ github.event.inputs.memory }}
+          MIN_REPLICAS: ${{ github.event.inputs.min-replicas }}
+          MAX_REPLICAS: ${{ github.event.inputs.max-replicas }}
+          MCP_SERVER: "mcp-server"
 
         run: |
           envsubst < ./yaml/create_container.yaml > containerapp.yaml
