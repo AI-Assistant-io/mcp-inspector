@@ -51,4 +51,4 @@ ENV HOST=0.0.0.0
 EXPOSE ${CLIENT_PORT} ${SERVER_PORT}
 
 # Use ENTRYPOINT with CMD for arguments
-ENTRYPOINT ["npm", "start"]
+ENTRYPOINT HOST=0.0.0.0 npm start
