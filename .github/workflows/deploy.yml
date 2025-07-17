@@ -1,5 +1,4 @@
-name: Build and Deploy to Azure Container Apps
-
+name: Build and Deploy
 on:
   push:
     branches: [ "main" ]
@@ -21,11 +20,11 @@ jobs:
       - name: Build and deploy Container App
         uses: azure/container-apps-deploy-action@v2
         with:
-          appSourcePath: ${{ github.workspace }}
-          dockerfilePath: ./Dockerfile  # Explicitly points to the root Dockerfile
-          acrName: ca72f2f56ae9acr
-          containerAppName: mcp-inspector
-          resourceGroup: aia-uks-rg-container-environment
-          targetPort: 6274
-          ingress: external
-          imageName: mcp-inspector-image  # Custom image name (tag will be auto-generated with commit SHA)
+            appSourcePath: ${{ github.workspace }}
+            dockerfilePath: ./Dockerfile
+            acrName: ca72f2f56ae9acr
+            containerAppName: mcp-inspector
+            resourceGroup: aia-uks-rg-container-environment
+            targetPort: 6274
+            ingress: external
+            imageName: mcp-inspector-image  # Add or update this
