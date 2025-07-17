@@ -94,9 +94,9 @@ jobs:
       - name: Deploy Image to Container App
         uses: azure/container-apps-deploy-action@v2
         with:
-          acrName: ca72f2f56ae9acr
+          acrName: aiauksdocautomation
           containerAppName: mcp-inspector
           resourceGroup: aia-uks-rg-container-environment
-          imageToDeploy: ca72f2f56ae9acr.azurecr.io/mcp-inspector:${{ needs.generate_dynamic_tag.outputs.dynamic_tag || 'latest' }}  # Matches the pushed tag
+          imageToDeploy: aiauksdocautomation.azurecr.io/mcp-inspector:${{ needs.generate_dynamic_tag.outputs.dynamic_tag || 'latest' }}  # Matches the pushed tag
           targetPort: 6274
           ingress: external
