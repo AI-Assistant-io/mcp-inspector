@@ -1,0 +1,105 @@
+id: /subscriptions/563eea8b-4408-4fe7-94d0-5b9e2aedf88d/resourceGroups/aia-uks-rg-container-environment/providers/Microsoft.App/containerapps/production-emails-reader
+identity:
+  type: None
+location: UK South
+name: production-emails-reader
+properties:
+  configuration:
+    activeRevisionsMode: Single
+    dapr: null
+    ingress:
+      allowInsecure: false
+      clientCertificateMode: null
+      corsPolicy: null
+      customDomains: null
+      exposedPort: 0
+      external: true
+      fqdn: production-emails-reader.thankfulgrass-94fa0e04.uksouth.azurecontainerapps.io
+      ipSecurityRestrictions: null
+      stickySessions: null
+      targetPort: 8000
+      traffic:
+      - latestRevision: true
+        weight: 100
+      transport: Auto
+    maxInactiveRevisions: 100
+    registries:
+    - identity: ''
+      passwordSecretRef: aiauksdocautomationazurecrio-aiauksdocautomation
+      server: aiauksdocautomation.azurecr.io
+      username: aiauksdocautomation
+    secrets:
+    - name: aiauksdocautomationazurecrio-aiauksdocautomation
+    service: null
+  customDomainVerificationId: 86DAA01B778704BE2B1E55E643C368631B1360C9CC47658C2DA29A5FF8612C02
+  delegatedIdentities: []
+  environmentId: /subscriptions/563eea8b-4408-4fe7-94d0-5b9e2aedf88d/resourceGroups/aia-uks-rg-container-environment/providers/Microsoft.App/managedEnvironments/aia-uks-ccae-production-workloads
+  eventStreamEndpoint: https://uksouth.azurecontainerapps.dev/subscriptions/563eea8b-4408-4fe7-94d0-5b9e2aedf88d/resourceGroups/aia-uks-rg-container-environment/containerApps/production-emails-reader/eventstream
+  latestReadyRevisionName: production-emails-reader--1xefq9p
+  latestRevisionFqdn: production-emails-reader--1xefq9p.thankfulgrass-94fa0e04.uksouth.azurecontainerapps.io
+  latestRevisionName: production-emails-reader--1xefq9p
+  managedEnvironmentId: /subscriptions/563eea8b-4408-4fe7-94d0-5b9e2aedf88d/resourceGroups/aia-uks-rg-container-environment/providers/Microsoft.App/managedEnvironments/aia-uks-ccae-production-workloads
+  outboundIpAddresses:
+  - 20.90.238.99
+  - 20.90.239.180
+  - 20.108.130.227
+  - 20.108.130.191
+  - 20.108.216.9
+  - 20.108.217.125
+  - 20.108.124.221
+  - 20.108.125.221
+  - 4.250.59.190
+  - 4.250.60.23
+  - 4.158.143.27
+  - 4.158.142.201
+  - 4.158.142.195
+  - 4.158.143.20
+  - 4.158.143.13
+  - 4.158.142.191
+  - 4.158.142.146
+  - 4.158.142.202
+  - 4.158.143.14
+  - 4.158.142.243
+  - 4.250.59.122
+  - 4.250.59.209
+  - 172.165.57.118
+  - 172.165.57.111
+  - 172.165.57.107
+  - 172.165.57.114
+  - 172.165.57.179
+  - 172.165.57.229
+  provisioningState: Succeeded
+  runningStatus: Stopped
+  template:
+    containers:
+    - env:
+      - name: ASPNETCORE_ENVIRONMENT
+        value: production
+      - name: WorkingDelayInMinutes
+        value: '5'
+      image: aiauksdocautomation.azurecr.io/proc-emails-reader:2024.06.11.47.62e2255
+      name: production-emails-reader
+      probes: []
+      resources:
+        cpu: 0.5
+        ephemeralStorage: 2Gi
+        memory: 1Gi
+    initContainers: null
+    revisionSuffix: ''
+    scale:
+      maxReplicas: 1
+      minReplicas: 1
+      rules: null
+    serviceBinds: null
+    terminationGracePeriodSeconds: null
+    volumes: []
+  workloadProfileName: Consumption
+resourceGroup: aia-uks-rg-container-environment
+systemData:
+  createdAt: '2024-06-02T21:51:47.1634425'
+  createdBy: 4858a45d-0d8c-4d6f-adf7-31202d2a3f7a
+  createdByType: Application
+  lastModifiedAt: '2024-06-12T21:12:53.3014025'
+  lastModifiedBy: 4858a45d-0d8c-4d6f-adf7-31202d2a3f7a
+  lastModifiedByType: Application
+type: Microsoft.App/containerApps

@@ -1,0 +1,32 @@
+type: Microsoft.App/containerApps
+location: "UK South"
+properties:
+  environmentId: /subscriptions/563eea8b-4408-4fe7-94d0-5b9e2aedf88d/resourceGroups/aia-uks-rg-container-environment/providers/Microsoft.App/managedEnvironments/aia-uks-ccae-production-workloads
+  configuration:
+    activeRevisionsMode: Single
+    registries:
+      - server: aiauksdocautomation.azurecr.io
+        username: aiauksdocautomation
+        passwordSecretRef: acr-password
+    secrets:
+      - name: acr-password
+        value: ${ACR_PASSWORD}
+    ingress:
+      external: true
+      targetPort: 6274
+      transport: http
+      allowInsecure: false
+      traffic:
+        - weight: 100
+          latestRevision: true
+  template:
+    revisionSuffix: ""
+    containers:
+      - name: mcp-inspector
+        image: aiauksdocautomation.azurecr.io/mcp-inspector:${IMAGE_TAG}
+        resources:
+          cpu: ${CPU}
+          memory: ${MEMORY}Gi
+    scale:
+      minReplicas: ${MIN_REPLICAS}
+      maxReplicas: ${MAX_REPLICAS}

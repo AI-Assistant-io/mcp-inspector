@@ -1,0 +1,110 @@
+name: Create Container App
+run-name: Create MCP Inspector by @${{ github.actor }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      imageTag:
+        type: string
+        description: 'Docker Image Tag'
+        required: true
+        default: 'latest'
+      cpu:
+        type: choice
+        description: CPU
+        options: 
+          - 1
+          - 2
+          - 4
+        default: '2'
+        required: true
+      memory:
+        type: choice
+        description: MEMORY
+        options: 
+          - 2.0
+          - 4.0
+          - 8.0
+        default: '4.0'
+        required: true
+      min-replicas:
+        type: choice
+        description: Min Replicas
+        options: 
+          - 1
+          - 2
+          - 3
+          - 4
+        required: true
+        default: '1'
+      max-replicas:
+        type: choice
+        description: Max Replicas
+        options: 
+          - 1
+          - 2
+          - 3
+          - 4
+        required: true
+        default: '2'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+
+      - name: Add Image Tag to Job Summary
+        run: |
+          mkdir -p "$(dirname "$GITHUB_STEP_SUMMARY")"
+          echo "### Deploy Summary" >> $GITHUB_STEP_SUMMARY
+          echo "CPU:${{ github.event.inputs.cpu  }}" >> $GITHUB_STEP_SUMMARY
+          echo "MEMORY:${{ github.event.inputs.memory  }}" >> $GITHUB_STEP_SUMMARY
+          echo "MIN_REPLICAS:${{ github.event.inputs.min-replicas  }}" >> $GITHUB_STEP_SUMMARY
+          echo "MAX_REPLICAS:${{ github.event.inputs.max-replicas  }}" >> $GITHUB_STEP_SUMMARY
+
+      - name: Generate YAML from Template
+
+        run: |
+          envsubst < ./yaml/create_container.yaml > containerapp.yaml
+
+      - name: Echo the Generated YAML
+        run: cat containerapp.yaml
+
+      - name: Deploy Container App
+        run: |
+          echo "Deploying container app: mcp-inspector"
+          echo "Image: aiauksdocautomation.azurecr.io/mcp-inspector:${{ github.event.inputs.imageTag }}"
+          
+          # Check if container app exists
+          if az containerapp show -n mcp-inspector -g aia-uks-rg-container-environment >/dev/null 2>&1; then
+            echo "Container app exists, updating..."
+            az containerapp update -n mcp-inspector -g aia-uks-rg-container-environment --yaml containerapp.yaml
+          else
+            echo "Container app doesn't exist, creating..."
+            az containerapp create -n mcp-inspector -g aia-uks-rg-container-environment --yaml containerapp.yaml
+          fi
+      
+      - name: Wait for deployment and check health
+        run: |
+          echo "Waiting for deployment to complete..."
+          sleep 30
+          
+          # Check if the app is running
+          az containerapp show -n mcp-inspector -g aia-uks-rg-container-environment --query "properties.runningStatus"
+          
+          # Test health endpoint
+          FQDN=$(az containerapp show -n mcp-servinspectorer -g aia-uks-rg-container-environment --query "properties.configuration.ingress.fqdn" -o tsv)
+          echo "Testing health endpoint: https://$FQDN/health"
+          curl -f "https://$FQDN/health" || echo "Health check failed"
+
+      - name: Logout from Azure
+        run: az logout
