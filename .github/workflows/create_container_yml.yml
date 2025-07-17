@@ -110,7 +110,7 @@ jobs:
           az containerapp show -n mcp-inspector -g aia-uks-rg-container-environment --query "properties.runningStatus"
           
           # Test health endpoint
-          FQDN=$(az containerapp show -n mcp-servinspectorer -g aia-uks-rg-container-environment --query "properties.configuration.ingress.fqdn" -o tsv)
+          FQDN=$(az containerapp show -n mcp-inspector -g aia-uks-rg-container-environment --query "properties.configuration.ingress.fqdn" -o tsv)
           echo "Testing health endpoint: https://$FQDN/health"
           curl -f "https://$FQDN/health" || echo "Health check failed"
 
