@@ -19,3 +19,16 @@ az containerapp update --name mcp-inspector --resource-group aia-uks-rg-containe
 
 ## Monitor logs
 az containerapp logs show --name mcp-inspector --resource-group aia-uks-rg-container-environment --follow
+
+
+# Deploy
+## Build
+
+docker build -f Dockerfile.local -t mcp-inspector:latest .
+
+## Local docker deploy  
+docker run --name mcp-inspector -p 6274:6274 -p 6277:6277 -d mcp-inspector:latest
+docker run --name mcp-inspector -p 6274:6277 -d mcp-inspector:latest    
+
+## local docker remove
+docker rm -f mcp-inspector  
