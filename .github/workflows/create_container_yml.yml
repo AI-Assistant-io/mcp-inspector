@@ -72,7 +72,9 @@ jobs:
           echo "MAX_REPLICAS:${{ github.event.inputs.max-replicas  }}" >> $GITHUB_STEP_SUMMARY
 
       - name: Generate YAML from Template
-        env:   
+        env:
+          ALLOWED_ORIGINS: "http://0.0.0.0:6274,http://mcp-inspector.thankfulgrass-94fa0e04.uksouth.azurecontainerapps.io:6274,http://localhost:6274"   
+          HOST: "0.0.0.0"
           ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}
           IMAGE_TAG: ${{ github.event.inputs.imageTag }}
           CPU: ${{ github.event.inputs.cpu }}
